@@ -1,0 +1,45 @@
+<table class="table table-striped table-bordered table-sm">
+  <thead class="thead-light">
+  <tr>
+    <th scope="col">Имя</th>
+    <th scope="col">Ссылка</th>
+    <th scope="col">Превью</th>
+    <th scope="col">Действия</th>
+  </tr>
+  </thead>
+  <tbody [ngSwitch]="template">
+  <tr *ngSwitchCase="TEMPLATE_LOADING">
+    <td colspan="4" class="loading" style="padding: 20px"></td>
+  </tr>
+  <tr *ngSwitchCase="TEMPLATE_ERROR">
+    <td colspan="4" style="padding: 20px" align="center">{{errorMessage}}</td>
+  </tr>
+  <tr *ngFor="let emoji of emojis | itemsFilter: 'name':filter | paginate: paginateConfig">
+    <th class="name" scope="row">{{emoji.name}}</th>
+    <td><a [href]="emoji.imgSrc" [title]="emoji.name">{{emoji.imgSrc}}</a></td>
+    <td class="preview {{emoji.type}}" appImgPreview [previewSrc]="emoji.imgSrc">
+      <img
+        appImgLoadingSpinner
+        width="25"
+        height="25"
+        [src]="emoji.imgSrc"
+        [alt]="emoji.name"
+      >
+    </td>
+    <td class="actions" [ngSwitch]="emoji.type">
+      <div *ngSwitchCase="'default'" class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+        <button type="button" class="btn btn-dark" (click)="insert('favorite', emoji.name)">✔️</button>
+        <button type="button" class="btn btn-dark" (click)="insert('deleted', emoji.name)">❌</button>
+      </div>
+      <div *ngSwitchCase="'favorite'" class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+        <button type="button" class="btn btn-dark" (click)="remove('favorite', emoji.name)">✖️</button>
+        <button type="button" class="btn btn-dark" (click)="insert('deleted', emoji.name)">❌</button>
+      </div>
+      <div *ngSwitchCase="'deleted'" class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+        <button type="button" class="btn btn-dark" (click)="remove(emoji.type, emoji.name)">✖️</button>
+      </div>
+    </td>
+  </tr>
+  </tbody>
+</table>
+<pagination-controls (pageChange)="onPageChange($event)" maxSize="15" autoHide="true"></pagination-controls>

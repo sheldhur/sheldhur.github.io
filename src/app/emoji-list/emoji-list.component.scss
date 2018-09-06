@@ -1,0 +1,30 @@
+table {
+  td, th {
+    padding: .3rem 1rem;
+    vertical-align: middle;
+
+    &.loading {
+      background-size: 25px;
+    }
+
+    &.name, &.preview, &.actions {
+      width: 1px;
+      text-align: center;
+    }
+
+    &.preview {
+      filter: grayscale(100%);
+
+      img.loading {
+        background-size: 20px;
+      }
+
+      &:hover {
+        filter: grayscale(50%);
+      }
+      &.favorite {
+        filter: none;
+      }
+    }
+  }
+}
