@@ -13,13 +13,15 @@ import {ImgPreviewDirective} from './directives/img-preview.directive';
 import {HttpClientModule} from '@angular/common/http';
 import {NgxPaginationModule} from 'ngx-pagination';
 import {ItemsFilterPipe} from './items-filter/items-filter.pipe';
-import { ItemsFilterComponent } from './items-filter/items-filter.component';
+import {ItemsFilterComponent} from './items-filter/items-filter.component';
 
 const routes = [
   {path: '', component: EmojiLayoutComponent, data: {title: 'Все', listType: null}},
   {path: 'favorite', component: EmojiLayoutComponent, data: {title: 'Любимые', listType: 'favorite'}},
   {path: 'deleted', component: EmojiLayoutComponent, data: {title: 'Удаленные', listType: 'deleted'}},
 ];
+
+const isGitPage = location.host.endsWith('.github.io');
 
 @NgModule({
   declarations: [
@@ -37,7 +39,7 @@ const routes = [
     BrowserModule,
     NgxPaginationModule,
     HttpClientModule,
-    RouterModule.forRoot(routes),
+    RouterModule.forRoot(routes, {useHash: isGitPage}),
   ],
   providers: [EmojiListService],
   bootstrap: [AppComponent]
