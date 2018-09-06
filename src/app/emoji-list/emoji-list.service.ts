@@ -35,7 +35,7 @@ export class EmojiListService {
       return JSON.parse(localStorage[this.LS_FILTER_KEY]);
     }
 
-    return {};
+    return this.filter;
   }
 
   private saveFilter(): void {
